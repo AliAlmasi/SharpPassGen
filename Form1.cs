@@ -124,8 +124,19 @@ namespace SharpPassGen {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            if (!small_char && !capital_char && !number_char && !special_char) {
+                Program.showError("Cannot create a password with no letters or characters in it.", "Generating a password with the default 8 characters with small letters.");
+                checkBox1.Checked = true;
+                small_char = true;
+                numericUpDown1.Value = 8;
+                Properties.Settings.Default.PasswordLength = 8;
+                Properties.Settings.Default.Save();
+            }
             textBox1.Visible = true;
-            timer1.Enabled = true;
+            if (timer1.Enabled) {
+                timer1.Enabled = false;
+                timer1.Enabled = true;
+            } else timer1.Enabled = true;
             length = (int) (numericUpDown1.Value);
             if (length > 128) Program.showError("Wow! that's a lot of characters in a password.");
             if (length == 0) Program.showError("Cannot create a password with zero length.");
@@ -135,7 +146,7 @@ namespace SharpPassGen {
                 password = password.Append(GenerateChar(PasswordChars()));
 
             try {
-                Program.history += password.ToString() + Environment.NewLine + "========" + Environment.NewLine;
+                Program.history += password.ToString() + Environment.NewLine + "~~~~~" + Environment.NewLine;
                 textBox1.Text = password.ToString();
             } catch (Exception ex) {
                 Program.showError("Error while showing the generated password.", ex.Message);
@@ -143,7 +154,7 @@ namespace SharpPassGen {
         }
 
         private static char GenerateChar(string availableChars) {
-            var byteArray = new byte[1];
+            byte[] byteArray = new byte[1];
             char c;
             do {
                 entropyProvider.GetBytes(byteArray);

@@ -11,6 +11,11 @@ namespace SharpPassGen {
     public partial class Form3: Form {
         public Form3() {
             InitializeComponent();
+
+            ToolTip tp = new ToolTip();
+            tp.SetToolTip(this.button2, "Close this window");
+            tp.SetToolTip(this.button1, "https://github.com/AliAlmasi/SharpPassGen");
+            tp.SetToolTip(this.button3, "https://github.com/AliAlmasi");
         }
 
         private void button2_Click(object sender, EventArgs e) {

@@ -11,6 +11,8 @@ namespace SharpPassGen {
     public partial class Form2: Form {
         public Form2() {
             InitializeComponent();
+
+            new ToolTip().SetToolTip(this.button2, "Close this window");
         }
 
         private void Form2_Load(object sender, EventArgs e) {
